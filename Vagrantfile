@@ -1,6 +1,6 @@
 Vagrant.require_version ">= 1.7.0"
 
-$os_image = (ENV['OS_IMAGE'] || "ubuntu16").to_sym
+$os_image = (ENV['OS_IMAGE'] || "ubuntu18").to_sym
 
 def set_vbox(vb, config)
   vb.memory = 2048
