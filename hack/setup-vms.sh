@@ -9,9 +9,9 @@ cat <<EOF > ~/hosts
 127.0.0.1   localhost
 ::1         localhost
 
-192.16.35.10 k8s-n1
-192.16.35.11 k8s-n2
-192.16.35.12 k8s-m1
+192.168.35.10 k8s-n1
+192.168.35.11 k8s-n2
+192.168.35.12 k8s-m1
 
 EOF
 }
@@ -27,7 +27,7 @@ if [ ${HOST_NAME} == "k8s-m1" ]; then
       sudo yum install -y git ansible sshpass python-netaddr openssl-devel
     ;;
     "Ubuntu")
-      sudo sed -i 's/us.archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list
+      sudo sed -i 's/us.archive.ubuntu.com/cn.archive.ubuntu.com/g' /etc/apt/sources.list
       sudo apt-add-repository -y ppa:ansible/ansible
       sudo apt-get update && sudo apt-get install -y ansible git sshpass python-netaddr libssl-dev
     ;;
@@ -36,7 +36,7 @@ if [ ${HOST_NAME} == "k8s-m1" ]; then
   esac
 
   yes "/root/.ssh/id_rsa" | sudo ssh-keygen -t rsa -N ""
-  HOSTS="192.16.35.10 192.16.35.11 192.16.35.12"
+  HOSTS="192.168.35.10 192.168.35.11 192.168.35.12"
   for host in ${HOSTS}; do
     sudo sshpass -p "vagrant" ssh -o StrictHostKeyChecking=no vagrant@${host} "sudo mkdir -p /root/.ssh"
     sudo cat /root/.ssh/id_rsa.pub | \
@@ -46,7 +46,7 @@ if [ ${HOST_NAME} == "k8s-m1" ]; then
   cd /vagrant
   set_hosts
   sudo cp ~/hosts /etc/
-  sudo ansible-playbook -e network_interface=eth1 site.yaml
+  ansible-playbook -e network_interface=eth1 site.yaml
 else
   set_hosts
   sudo cp ~/hosts /etc/
