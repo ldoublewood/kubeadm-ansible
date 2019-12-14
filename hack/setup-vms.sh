@@ -28,8 +28,8 @@ if [ ${HOST_NAME} == "k8s-m1" ]; then
     ;;
     "Ubuntu")
       sudo sed -i 's/us.archive.ubuntu.com/cn.archive.ubuntu.com/g' /etc/apt/sources.list
-      sudo apt-add-repository -y ppa:ansible/ansible
-      sudo apt-get update && sudo apt-get install -y ansible git sshpass python-netaddr libssl-dev
+#      sudo apt-add-repository -y ppa:ansible/ansible
+      sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ansible git sshpass python-netaddr libssl-dev
     ;;
     *)
       echo "${OS_NAME} is not support ..."; exit 1
@@ -42,11 +42,10 @@ if [ ${HOST_NAME} == "k8s-m1" ]; then
     sudo cat /root/.ssh/id_rsa.pub | \
          sudo sshpass -p "vagrant" ssh -o StrictHostKeyChecking=no vagrant@${host} "sudo tee /root/.ssh/authorized_keys"
   done
-
-  cd /vagrant
-  set_hosts
-  sudo cp ~/hosts /etc/
-  ansible-playbook -e network_interface=eth1 site.yaml
+#  cd /vagrant
+#  set_hosts
+#  sudo cp ~/hosts /etc/
+#  ansible-playbook -e network_interface=eth1 site.yaml
 else
   set_hosts
   sudo cp ~/hosts /etc/

@@ -4,13 +4,13 @@ $os_image = (ENV['OS_IMAGE'] || "ubuntu18").to_sym
 
 def set_vbox(vb, config)
   vb.memory = 2048
-  vb.cpus = 1
+  vb.cpus = 2
 
   case $os_image
   when :centos7
     config.vm.box = "bento/centos-7.2"
   when :ubuntu18
-    config.vm.box = "generic/ubuntu1804"
+    config.vm.box = "ubuntu1804"
   end
 end
 
@@ -38,5 +38,5 @@ Vagrant.configure("2") do |config|
   end
 
   # Install of dependency packages using script
-  config.vm.provision :shell, path: "./hack/setup-vms.sh"
+  #config.vm.provision :shell, path: "./hack/setup-vms.sh"
 end
