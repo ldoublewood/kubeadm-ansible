@@ -19,21 +19,21 @@ Vagrant.configure("2") do |config|
   master = 1
   node = 2
 
-  private_count = 10
+  #private_count = 10
   (1..(master + node)).each do |mid|
     name = (mid <= node) ? "n" : "m"
     id   = (mid <= node) ? mid : (mid - node)
 
     config.vm.define "k8s-#{name}#{id}" do |n|
       n.vm.hostname = "k8s-#{name}#{id}"
-      ip_addr = "192.168.35.#{private_count}"
-      n.vm.network :private_network, ip: "#{ip_addr}",  auto_config: true
+      #ip_addr = "192.168.35.#{private_count}"
+      #n.vm.network :private_network, ip: "#{ip_addr}",  auto_config: true
 
       n.vm.provider :libvirt do |vb, override|
         #vb.name = "#{n.vm.hostname}"
         set_vbox(vb, override)
       end
-      private_count += 1
+      #private_count += 1
     end
   end
 

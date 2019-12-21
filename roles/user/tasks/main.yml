@@ -1,0 +1,10 @@
+---
+- name: Ensure group "{{ group }}" exists
+  group:
+    name: "{{ group }}"
+    state: present
+- user: name="{{ user }}" comment="User of {{ user }}" group={{ group }} shell="/bin/bash"
+- name: Placing key
+  authorized_key: user="{{ user }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+- name: Adding user to sudoers
+  lineinfile: dest=/etc/sudoers state=present regexp='^"{{ user }}"' line='"{{ user }}" ALL=(ALL) NOPASSWD:ALL' validate='visudo -cf %s'
